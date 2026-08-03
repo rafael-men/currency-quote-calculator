@@ -1,12 +1,12 @@
 'use client'
 
-import { AmountInput } from '../components/AmountInput'
-import { ConverterResult } from '../components/ConverterResult'
-import { CurrencyChart } from '../components/CurrencyChart'
-import { CurrencyField } from '../components/CurrencyField'
+import { AmountInput } from './AmountInput'
+import { ConverterResult } from './ConverterResult'
+import { CurrencyChart } from './CurrencyChart'
+import { CurrencyField } from './CurrencyField'
 import { useCurrencyConverter } from '../hooks/useCurrencyConverter'
 
-const Main = () => {
+export const CurrencyConverter = () => {
   const {
     amount,
     setAmount,
@@ -14,8 +14,7 @@ const Main = () => {
     setFromCurrency,
     toCurrency,
     setToCurrency,
-    fromCurrencyOptions,
-    toCurrencyOptions,
+    currencies,
     convertedValue,
     loading,
     loadingRate,
@@ -24,8 +23,8 @@ const Main = () => {
   } = useCurrencyConverter()
 
   return (
-    <main className='w-full px-3 py-4 sm:px-6 lg:px-8'>
-      <div className='mx-auto w-full max-w-5xl overflow-hidden rounded-[24px] bg-white p-4 shadow-lg shadow-slate-900/10 sm:rounded-[28px] sm:p-6 lg:p-8'>
+    <main className='flex-1 px-4 py-6 sm:px-6 lg:px-8'>
+      <div className='mx-auto max-w-5xl rounded-[28px] bg-white p-4 shadow-lg shadow-slate-900/10 sm:p-6 lg:p-8'>
         <div className='mb-6 text-center'>
           <h1 className='text-2xl font-bold text-slate-900 sm:text-3xl'>Conversão de Moedas</h1>
           <p className='mt-2 text-sm text-slate-500 sm:text-base'>Compare taxas e visualize a cotação em um gráfico simples.</p>
@@ -41,7 +40,7 @@ const Main = () => {
             id='fromCurrency'
             value={fromCurrency}
             onChange={setFromCurrency}
-            options={fromCurrencyOptions}
+            options={currencies}
             loading={loading}
           />
 
@@ -50,7 +49,7 @@ const Main = () => {
             id='toCurrency'
             value={toCurrency}
             onChange={setToCurrency}
-            options={toCurrencyOptions}
+            options={currencies}
             loading={loading}
           />
         </div>
@@ -83,5 +82,3 @@ const Main = () => {
     </main>
   )
 }
-
-export default Main

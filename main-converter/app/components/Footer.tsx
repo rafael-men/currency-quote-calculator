@@ -1,22 +1,19 @@
-import React from 'react'
-
 const Footer = () => {
   return (
-    <footer className='bg-black py-6 mt-32 shadow-inner text-white'>
-      <div className="max-w-screen-xl mx-auto px-4">
-        <div className="flex flex-col sm:flex-row justify-between items-center text-sm font-mono">
-          <p className="mt-2 sm:mt-0">
-            Desenvolvido por 
-            <a 
-              href="https://github.com/seu-rafael-men" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-blue-500 hover:underline ml-1"
-            >
-              Rafael
-            </a>
-          </p>
-        </div>
+    <footer className='mt-6 bg-slate-950 py-6 text-white'>
+      <div className='mx-auto flex max-w-7xl flex-col items-center justify-center gap-2 px-4 text-center text-sm sm:flex-row sm:justify-between sm:text-left'>
+        <p>
+          Desenvolvido por
+          <a
+            href='https://github.com/seu-rafael-men'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='ml-1 text-blue-400 hover:underline'
+          >
+            Rafael
+          </a>
+        </p>
+        <p className='text-slate-400'>© 2026 Currency Quote</p>
       </div>
     </footer>
   )
