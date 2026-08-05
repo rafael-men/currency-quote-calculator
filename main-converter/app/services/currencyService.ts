@@ -25,11 +25,12 @@ export const fetchExchangeRate = async (
   fromCurrency: string,
   toCurrency: string,
   amount: number,
-): Promise<{ convertedValue: number; rate: number }> => {
+): Promise<{ convertedValue: number; rate: number; history: number[] }> => {
   const params = new URLSearchParams({
     fromCurrency,
     toCurrency,
     amount: String(amount),
+    history: '6',
   })
 
   const response = await fetch(`${API_BASE_URL}/exchange-rate?${params.toString()}`)
@@ -38,7 +39,7 @@ export const fetchExchangeRate = async (
     throw new Error('Não foi possível carregar a taxa de câmbio.')
   }
 
-  const data = (await response.json()) as CurrencyQuoteResponse & { convertedValue: number; rate: number }
+  const data = (await response.json()) as CurrencyQuoteResponse & { convertedValue: number; rate: number; history?: number[] }
 
   if (typeof data.rate !== 'number' || typeof data.convertedValue !== 'number') {
     throw new Error(`Não foi possível encontrar a taxa de câmbio para ${fromCurrency}${toCurrency}`)
@@ -47,5 +48,6 @@ export const fetchExchangeRate = async (
   return {
     rate: data.rate,
     convertedValue: data.convertedValue,
+    history: Array.isArray(data.history) ? data.history : [],
   }
 }

@@ -7,21 +7,26 @@ export async function GET(request: Request) {
   const fromCurrency = searchParams.get('fromCurrency')?.toUpperCase()
   const toCurrency = searchParams.get('toCurrency')?.toUpperCase()
   const amount = searchParams.get('amount')
+  const historyDays = Number(searchParams.get('history') ?? 6)
 
   if (!fromCurrency || !toCurrency || !amount) {
     return NextResponse.json({ error: 'Parâmetros inválidos' }, { status: 400 })
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/json/last/${fromCurrency}-${toCurrency}`)
+    const [quoteResponse, historyResponse] = await Promise.all([
+      fetch(`${API_BASE_URL}/json/last/${fromCurrency}-${toCurrency}`),
+      fetch(`${API_BASE_URL}/json/daily/${fromCurrency}-${toCurrency}/${Math.max(1, historyDays)}`),
+    ])
 
-    if (!response.ok) {
+    if (!quoteResponse.ok || !historyResponse.ok) {
       throw new Error('Falha ao consultar a taxa de câmbio')
     }
 
-    const data = await response.json()
+    const quoteData = await quoteResponse.json()
+    const historyData = await historyResponse.json()
     const rateKey = `${fromCurrency}${toCurrency}`
-    const quote = data?.[rateKey]
+    const quote = quoteData?.[rateKey]
 
     if (!quote?.bid) {
       return NextResponse.json(
@@ -31,10 +36,17 @@ export async function GET(request: Request) {
     }
 
     const rate = Number(quote.bid)
+    const history = Array.isArray(historyData)
+      ? historyData
+        .map((entry) => Number(entry?.bid))
+        .filter((value) => Number.isFinite(value))
+        .reverse()
+      : []
 
     return NextResponse.json({
       rate,
       convertedValue: Number(amount) * rate,
+      history,
     })
   } catch (error) {
     return NextResponse.json(

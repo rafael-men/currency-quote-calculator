@@ -7,9 +7,9 @@ type ConverterResultProps = {
 
 export const ConverterResult = ({ amount, fromCurrency, toCurrency, convertedValue }: ConverterResultProps) => {
   return (
-    <div className='mt-6 rounded-2xl bg-slate-50 px-4 py-5 text-center shadow-sm'>
-      <h2 className='text-lg font-semibold text-slate-800 sm:text-xl'>Valor final convertido</h2>
-      <p className='mt-2 text-base text-slate-700 sm:text-lg'>
+    <div className='mt-6 rounded-2xl border border-white/15 bg-white/10 px-3 py-4 text-center shadow-[0_20px_60px_rgba(15,23,42,0.45)] backdrop-blur-xl sm:rounded-3xl sm:px-4 sm:py-5'>
+      <h2 className='text-base font-semibold text-slate-100 sm:text-lg lg:text-xl'>Valor final convertido</h2>
+      <p className='mt-2 break-words text-sm tabular-nums leading-relaxed text-slate-200 sm:text-base lg:text-lg'>
         {amount} {fromCurrency} = {convertedValue.toFixed(2)} {toCurrency}
       </p>
     </div>

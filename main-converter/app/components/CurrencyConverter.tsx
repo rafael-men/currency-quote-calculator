@@ -24,15 +24,15 @@ export const CurrencyConverter = () => {
 
   return (
     <main className='flex-1 px-4 py-6 sm:px-6 lg:px-8'>
-      <div className='mx-auto max-w-5xl rounded-[28px] bg-white p-4 shadow-lg shadow-slate-900/10 sm:p-6 lg:p-8'>
+      <div className='glass-shell mx-auto max-w-5xl rounded-[32px] p-4 sm:p-6 lg:p-8'>
         <div className='mb-6 text-center'>
-          <h1 className='text-2xl font-bold text-slate-900 sm:text-3xl'>Conversão de Moedas</h1>
-          <p className='mt-2 text-sm text-slate-500 sm:text-base'>Compare taxas e visualize a cotação em um gráfico simples.</p>
+          <h1 className='text-2xl font-bold text-white sm:text-3xl'>Conversão de Moedas</h1>
+          <p className='mt-2 text-sm text-slate-300 sm:text-base'>Compare taxas e visualize a cotação em um gráfico simples.</p>
         </div>
 
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           <div className='flex items-end'>
-            <AmountInput amount={amount} onChange={setAmount} />
+            <AmountInput amount={amount} currency={fromCurrency} onChange={setAmount} />
           </div>
 
           <CurrencyField

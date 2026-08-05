@@ -14,5 +14,12 @@ export type ChartDataPoint = {
     data: number[]
     borderColor: string
     backgroundColor: string
+    fill?: boolean
+    tension?: number
+    borderWidth?: number
+    pointRadius?: number
+    pointHoverRadius?: number
+    pointBackgroundColor?: string
+    pointBorderColor?: string
   }[]
 }

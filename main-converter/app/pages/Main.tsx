@@ -24,16 +24,18 @@ const Main = () => {
   } = useCurrencyConverter()
 
   return (
-    <main className='w-full px-3 py-4 sm:px-6 lg:px-8'>
-      <div className='mx-auto w-full max-w-5xl overflow-hidden rounded-[24px] bg-white p-4 shadow-lg shadow-slate-900/10 sm:rounded-[28px] sm:p-6 lg:p-8'>
-        <div className='mb-6 text-center'>
-          <h1 className='text-2xl font-bold text-slate-900 sm:text-3xl'>Conversão de Moedas</h1>
-          <p className='mt-2 text-sm text-slate-500 sm:text-base'>Compare taxas e visualize a cotação em um gráfico simples.</p>
+    <main className='mx-auto w-full max-w-5xl flex-1 px-3 py-4 sm:px-6 sm:py-6 lg:px-8'>
+      <div className='glass-shell w-full overflow-hidden rounded-2xl p-4 sm:rounded-[32px] sm:p-6 lg:rounded-[36px] lg:p-8'>
+        <div className='mb-5 text-center sm:mb-6'>
+          <h1 className='text-xl font-bold text-white sm:text-2xl lg:text-3xl'>Conversão de Moedas</h1>
+          <p className='mx-auto mt-2 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base'>
+            Compare taxas e visualize a cotação em um gráfico simples.
+          </p>
         </div>
 
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          <div className='flex items-end'>
-            <AmountInput amount={amount} onChange={setAmount} />
+        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+          <div className='sm:col-span-2'>
+            <AmountInput amount={amount} currency={fromCurrency} onChange={setAmount} />
           </div>
 
           <CurrencyField
@@ -56,7 +58,7 @@ const Main = () => {
         </div>
 
         {loadingRate && (
-          <div className='mt-6 rounded-xl bg-blue-50 px-4 py-3 text-center text-sm text-blue-700'>
+          <div className='mt-6 rounded-xl border border-blue-300/30 bg-blue-400/15 px-4 py-3 text-center text-sm text-blue-100'>
             Carregando taxa de câmbio...
           </div>
         )}

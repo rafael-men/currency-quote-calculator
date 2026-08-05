@@ -13,6 +13,8 @@ export const useCurrencyConverter = () => {
   const [currencies, setCurrencies] = useState<string[]>([])
   const [pairs, setPairs] = useState<string[]>([])
   const [convertedValue, setConvertedValue] = useState<number | null>(null)
+  const [currentRate, setCurrentRate] = useState<number | null>(null)
+  const [rateHistory, setRateHistory] = useState<number[]>([])
   const [loading, setLoading] = useState(true)
   const [loadingRate, setLoadingRate] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -79,11 +81,15 @@ export const useCurrencyConverter = () => {
     const loadExchangeRate = async () => {
       if (loading || !fromCurrency || !toCurrency || currencies.length === 0) {
         setConvertedValue(null)
+        setCurrentRate(null)
+        setRateHistory([])
         return
       }
 
       if (!isPairSupported(fromCurrency, toCurrency)) {
         setConvertedValue(null)
+        setCurrentRate(null)
+        setRateHistory([])
         setErrorMessage(`A conversão de ${fromCurrency} para ${toCurrency} não está disponível.`)
         return
       }
@@ -91,12 +97,16 @@ export const useCurrencyConverter = () => {
       try {
         setLoadingRate(true)
         setErrorMessage(null)
-        const { convertedValue } = await fetchExchangeRate(fromCurrency, toCurrency, amount)
+        const { convertedValue, rate, history } = await fetchExchangeRate(fromCurrency, toCurrency, amount)
 
         setConvertedValue(convertedValue)
+        setCurrentRate(rate)
+        setRateHistory(history.length > 0 ? history : [rate])
       } catch (error) {
         console.error('Erro ao carregar dados: ', error)
         setConvertedValue(null)
+        setCurrentRate(null)
+        setRateHistory([])
         setErrorMessage(error instanceof Error ? error.message : 'Não foi possível carregar a taxa de câmbio.')
       } finally {
         setLoadingRate(false)
@@ -104,27 +114,47 @@ export const useCurrencyConverter = () => {
     }
 
     loadExchangeRate()
+
+    const refreshInterval = window.setInterval(() => {
+      loadExchangeRate()
+    }, 30000)
+
+    return () => {
+      window.clearInterval(refreshInterval)
+    }
   }, [amount, currencies.length, fromCurrency, loading, toCurrency, pairs])
 
   const chartData = useMemo<ChartDataPoint | null>(() => {
-    if (convertedValue === null) {
+    if (currentRate === null || convertedValue === null) {
       return null
     }
 
-    const estimatedRate = convertedValue / Math.max(amount, 1)
+    const normalizedRate = 1 / currentRate
+    const chartSeries = rateHistory.length > 0 ? rateHistory.map((value) => 1 / value) : [normalizedRate]
+    const labels = chartSeries.map((_, index) => {
+      const daysAgo = chartSeries.length - index - 1
+      return daysAgo === 0 ? 'Hoje' : `${daysAgo}d`
+    })
 
     return {
-      labels: ['1', '2', '3', '4', '5'],
+      labels,
       datasets: [
         {
-          label: `${fromCurrency} to ${toCurrency} Exchange Rate`,
-          data: [estimatedRate, estimatedRate + 0.1, estimatedRate + 0.2, estimatedRate + 0.3, estimatedRate + 0.4],
-          borderColor: '#3b82f6',
-          backgroundColor: 'rgba(59, 130, 246, 0.2)',
+          label: `${toCurrency} / ${fromCurrency} Exchange Rate`,
+          data: chartSeries,
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37, 99, 235, 0.16)',
+          fill: true,
+          tension: 0.35,
+          borderWidth: 3,
+          pointRadius: 4,
+          pointHoverRadius: 5,
+          pointBackgroundColor: '#1d4ed8',
+          pointBorderColor: '#ffffff',
         },
       ],
     }
-  }, [amount, convertedValue, fromCurrency, toCurrency])
+  }, [convertedValue, currentRate, fromCurrency, rateHistory, toCurrency])
 
   return {
     amount,
