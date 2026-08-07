@@ -7,7 +7,7 @@ const Footer = () => {
         <p className='text-slate-300'>
           Desenvolvido por
           <a
-            href='https://github.com/seu-rafael-men'
+            href={process.env.GITHUB_URL}
             target='_blank'
             rel='noopener noreferrer'
             className='ml-1 text-blue-300 hover:underline'
