@@ -108,17 +108,6 @@ A aplicação consome a **AwesomeAPI Economia** diretamente no frontend:
   - Retorna a cotação atual do par.
 - `GET https://economia.awesomeapi.com.br/json/daily/{MOEDA1}-{MOEDA2}/{DIAS}`
   - Retorna o histórico de cotações.
-
----
-
-## 🚀 Deploy no GitHub Pages
-
-1. No repositório, acesse **Settings → Pages**.
-2. Em **Build and deployment**, selecione **Source: GitHub Actions**.
-3. Faça push na branch `main`.
-4. Acompanhe o workflow em **Actions** (arquivo `.github/workflows/deploy.yml`).
-5. Após concluir, valide a URL publicada em **Settings → Pages**.
-
 ---
 
 
