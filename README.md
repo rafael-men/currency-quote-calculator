@@ -99,17 +99,30 @@ No diretório do projeto, você pode executar:
 
 ---
 
-## 📡 API Interna (Endpoints Proxy)
+## 📡 Fonte de Dados
 
-A aplicação utiliza rotas internas da Next.js App Router para realizar as chamadas à AwesomeAPI:
+A aplicação consome a **AwesomeAPI Economia** diretamente no frontend:
 
-- `GET /api/currencies`
-  - Retorna a lista de moedas únicas e os pares de conversão disponíveis.
-- `GET /api/exchange-rate?fromCurrency={MOEDA1}&toCurrency={MOEDA2}&amount={VALOR}&history={DIAS}`
-  - Retorna a taxa de câmbio atual, o valor convertido e o histórico de cotações dos últimos dias.
+- `GET https://economia.awesomeapi.com.br/json/available/uniq`
+  - Retorna a lista de moedas únicas.
+- `GET https://economia.awesomeapi.com.br/json/available`
+  - Retorna os pares de conversão disponíveis.
+- `GET https://economia.awesomeapi.com.br/json/last/{MOEDA1}-{MOEDA2}`
+  - Retorna a cotação atual do par.
+- `GET https://economia.awesomeapi.com.br/json/daily/{MOEDA1}-{MOEDA2}/{DIAS}`
+  - Retorna o histórico de cotações.
 
 ---
 
+## 🚀 Deploy no GitHub Pages
+
+1. No repositório, acesse **Settings → Pages**.
+2. Em **Build and deployment**, selecione **Source: GitHub Actions**.
+3. Faça push na branch `main`.
+4. Acompanhe o workflow em **Actions** (arquivo `.github/workflows/deploy.yml`).
+5. Após concluir, valide a URL publicada em **Settings → Pages**.
+
+---
 
 
 
