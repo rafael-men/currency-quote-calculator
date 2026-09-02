@@ -32,9 +32,6 @@ Uma aplicação web moderna para **conversão de moedas em tempo real** e **visu
 
 ```text
 ├── app/
-│   ├── api/                   # API Routes (Proxy para a AwesomeAPI)
-│   │   ├── currencies/        # Lista moedas e pares suportados
-│   │   └── exchange-rate/     # Consulta cotações atuais e histórico
 │   ├── components/            # Componentes reutilizáveis da interface
 │   │   ├── AmountInput.tsx    # Campo de entrada de valor com formatação
 │   │   ├── ConverterResult.tsx# Exibição do resultado final convertido
@@ -123,6 +120,5 @@ A aplicação consome a **AwesomeAPI Economia** diretamente no frontend:
 5. Após concluir, valide a URL publicada em **Settings → Pages**.
 
 ---
-
 
 
